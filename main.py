@@ -1,63 +1,42 @@
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-import seaborn as sns
 import tensorflow as tf
-import tensorflow_hub as tf_hub
-import tensorflow_text as tf_text
-from sklearn.metrics import classification_report, confusion_matrix
-from sklearn.model_selection import train_test_split
+import pickle
 
-# Reading the cleaned dataset
-data = pd.read_csv('./datasets/cleaned_twitter_training.csv')
-X_train, X_test, y_train, y_test = train_test_split(
-    data['text'], data['sentiment'], stratify=data['sentiment'])
+# EXAMPLE USAGE OF THE YAPPING CLASSIFIER MODEL
 
-# BERT preprocessor
-bert_preprocess = tf_hub.KerasLayer(
-    'https://tfhub.dev/tensorflow/bert_en_uncased_preprocess/3')
-bert_encoder = tf_hub.KerasLayer(
-    'https://tfhub.dev/tensorflow/bert_en_uncased_L-12_H-768_A-12/4')
+# Load the model
+model = tf.keras.models.load_model('./models/yapping_classifier_model')
 
-# Layerings
-# BERT layer
-text_input_layer = tf.keras.layers.Input(
-    shape=(), dtype=tf.string, name='Text')
-preprocessed_text = bert_preprocess(text_input_layer)
-pooled_output_layer = bert_encoder(preprocessed_text)['pooled_output']
-# Neural network layers
-layer = tf.keras.layers.Dropout(0.1, name='dropout')(pooled_output_layer)
-layer = tf.keras.layers.Dense(1, name='dense')(layer)
+# Load the tokenizer
+tokenizer = None
+with open('./models/tokenizer.pickle', 'rb') as handle:
+    tokenizer = pickle.load(handle)
 
-# Constructing the actual model
-model = tf.keras.Model(inputs=[text_input_layer], outputs=[layer])
-model.summary()
+# Hyperparameters
+VOCAB_SIZE = 1000
+EMBEDDING_DIM = 16
+MAX_LENGTH = 20
+TRUNCATING_TYPE = 'post'
+PADDING_TYPE = 'post'
+OOV_TOKEN = "<OOV>"
 
-METRICS = [
-    tf.keras.metrics.BinaryAccuracy(name='accuracy'),
-    tf.keras.metrics.Precision(name='precision'),
-    tf.keras.metrics.Recall(name='recall'),
-]
-model.compile(optimizer='adam', loss='binary_crossentropy', metrics=METRICS)
 
-EPOCHS = 15
-model.fit(X_train, y_train, epochs=EPOCHS)
+def preprocess_texts(texts: list[str]):
+    # Use the saved tokenizer to tokenize the given text
+    sequences = tokenizer.texts_to_sequences(texts)
+    padded_sequences = tf.keras.preprocessing.sequence.pad_sequences(
+        sequences, maxlen=MAX_LENGTH, padding=PADDING_TYPE, truncating=TRUNCATING_TYPE)
+    return padded_sequences
 
-# Evaluating the model
-model.evaluate(X_test, y_test)
 
-y_predicted = model.predict(X_test)
-y_predicted = y_predicted.flatten()
-y_predicted = np.where(y_predicted > .5, 1, 0)
+def classify_text(model, text: str):
+    # Pre-processed texts must be a list for the model to consume
+    preprocessed_text = preprocess_texts([text])
+    # Use the saved model to make a prediction on the Pre-processed text
+    prediction = model.predict(preprocessed_text)
 
-cm = confusion_matrix(y_test, y_predicted)
-sns.heatmap(cm, annot=True, fmt='d')
-plt.xlabel('Predicted')
-plt.ylabel('Truth')
-plt.show()
+    # Classify the text as either Negative or Positive
+    return "Positive" if prediction >= .5 else "Negative"
 
-print(f"Classification Report: {classification_report(y_test, y_predicted)}")
 
-# Save the model
-model.save('./models/yapping_classifier.keras')
-print("Model saved successfully")
+input_text = input("Input text > ")
+print(f"The text is classified as {classify_text(model, input_text)}")
