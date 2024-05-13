@@ -1,12 +1,12 @@
+import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
+import seaborn as sns
+import tensorflow as tf
 import tensorflow_hub as tf_hub
 import tensorflow_text as tf_text
-import tensorflow as tf
+from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.model_selection import train_test_split
-import numpy as np
-from sklearn.metrics import confusion_matrix, classification_report
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 # Reading the cleaned dataset
 data = pd.read_csv('./datasets/cleaned_twitter_training.csv')
