@@ -38,7 +38,7 @@ METRICS = [
     tf.keras.metrics.Precision(name='precision'),
     tf.keras.metrics.Recall(name='recall'),
 ]
-model.compile(optimized='adam', loss='binary_crossentropy', metrics=METRICS)
+model.compile(optimizer='adam', loss='binary_crossentropy', metrics=METRICS)
 
 EPOCHS = 15
 model.fit(X_train, y_train, epochs=EPOCHS)
