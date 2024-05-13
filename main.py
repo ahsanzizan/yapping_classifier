@@ -1,6 +1,8 @@
 import tensorflow as tf
 import pickle
 
+tf.get_logger().setLevel(level='ERROR')  # Avoid printing warnings
+
 # EXAMPLE USAGE OF THE YAPPING CLASSIFIER MODEL
 
 # Load the model
@@ -38,5 +40,6 @@ def classify_text(model, text: str):
     return "Positive" if prediction >= .5 else "Negative"
 
 
-input_text = input("Input text > ")
-print(f"The text is classified as {classify_text(model, input_text)}")
+if __name__ == '__main__':
+    input_text = input("Input text > ")
+    print(f"The text is classified as {classify_text(model, input_text)}")
