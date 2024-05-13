@@ -4,3 +4,4 @@ pandas
 tensorflow
 seaborn
 tensorflow_hub
+scikit-learn
