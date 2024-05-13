@@ -60,3 +60,4 @@ print(f"Classification Report: {classification_report(y_test, y_predicted)}")
 
 # Save the model
 model.save('./models/yapping_classifier.keras')
+print("Model saved successfully")
