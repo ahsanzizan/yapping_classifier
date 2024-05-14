@@ -82,7 +82,7 @@ import utils
 
 input_text = "I love you so much that even the moon knows"
 
-# Output: '{'positive': 0.099788, 'negative': 0.00212}'
+# Output: '{'positive': 0.99788, 'negative': 0.00212}'
 utils.classify_yapp(model, tokenizer, input_text)
 ```
 
