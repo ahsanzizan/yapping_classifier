@@ -15,7 +15,16 @@ tokenizer = None
 with open('./models/tokenizer.pickle', 'rb') as handle:
     tokenizer = pickle.load(handle)
 
+# Load stemmer
+stemmer = None
+with open('./models/stemmer.pickle', 'rb') as handle:
+    stemmer = pickle.load(handle)
+
 if __name__ == '__main__':
     input_text = input("Your yapp > ")
+    confidence = utils.classify_yapp(model, tokenizer, stemmer, input_text)
     print(
-        f"The yapp is classified as a {utils.classify_yapp(model, tokenizer, input_text)} yapp")
+        f"Negative Confidence: {confidence['negative'] * 100:.3f}%\nPositive Confidence: {(confidence['positive']) * 100:.3f}%")
+    classification = max(confidence, key=confidence.get)
+    print(
+        f"The yapp is classified as a {classification} yapp")
