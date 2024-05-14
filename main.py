@@ -1,7 +1,9 @@
-import tensorflow as tf
+import logging
 import pickle
 
-tf.get_logger().setLevel(level='ERROR')  # Avoid printing warnings
+import tensorflow as tf
+
+logging.getLogger('tensorflow').setLevel(logging.ERROR)
 
 # EXAMPLE USAGE OF THE YAPPING CLASSIFIER MODEL
 
@@ -39,13 +41,13 @@ def classify_text(model, text: str):
     prediction = prediction.flatten()
     negative_confidence = 1 - prediction[0]
     print(
-        f"Negative Confidence: {negative_confidence * 100:.3f}%\nPositive Confidence: {(1 - negative_confidence) * 100:.3f}")
+        f"Negative Confidence: {negative_confidence * 100:.3f}%\nPositive Confidence: {(1 - negative_confidence) * 100:.3f}%")
 
     # Classify the text as either Negative or Positive
-    return "Positive" if prediction >= .5 else "Negative"
+    return "positive" if prediction >= .5 else "negative"
 
 
 if __name__ == '__main__':
-    input_text = input("Input yapp > ")
+    input_text = input("Your yapp > ")
     print(
         f"The yapp is classified as a {classify_text(model, input_text)} text")
