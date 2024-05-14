@@ -61,7 +61,7 @@ The `utils.py` file comes with several useful functions:
 
 1. `clean_yapp` for cleaning the input yapp
 2. `preprocess_yapps` for pre-processing the yapps so that the model understands what you're yapping about
-3. `classify_yapp` for classifying the yapp as either a negative or positive yapp
+3. `classify_yapp` for classifying the yapp as either a negative or positive yapp, will return a confidence dictionary
 
 #### - Initialize the model
 
@@ -82,7 +82,7 @@ import utils
 
 input_text = "I love you so much that even the moon knows"
 
-# Output: 'positive'
+# Output: '{'positive': 0.099788, 'negative': 0.00212}'
 utils.classify_yapp(model, tokenizer, input_text)
 ```
 
