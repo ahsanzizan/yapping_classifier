@@ -46,6 +46,6 @@ def classify_text(model, text: str):
 
 
 if __name__ == '__main__':
-    input_text = input("Input text > ")
+    input_text = input("Input yapp > ")
     print(
-        f"The text is classified as a {classify_text(model, input_text)} text")
+        f"The yapp is classified as a {classify_text(model, input_text)} text")
