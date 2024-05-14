@@ -36,10 +36,16 @@ def classify_text(model, text: str):
     # Use the saved model to make a prediction on the Pre-processed text
     prediction = model.predict(preprocessed_text)
 
+    prediction = prediction.flatten()
+    negative_confidence = 1 - prediction[0]
+    print(
+        f"Negative Confidence: {negative_confidence * 100:.3f}%\nPositive Confidence: {(1 - negative_confidence) * 100:.3f}")
+
     # Classify the text as either Negative or Positive
     return "Positive" if prediction >= .5 else "Negative"
 
 
 if __name__ == '__main__':
     input_text = input("Input text > ")
-    print(f"The text is classified as {classify_text(model, input_text)}")
+    print(
+        f"The text is classified as a {classify_text(model, input_text)} text")
