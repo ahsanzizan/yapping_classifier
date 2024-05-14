@@ -55,33 +55,35 @@ with open('./models/tokenizer.pickle', 'rb') as handle:
 
 Now that you've loaded the model, you can now use it to make predictions as such:
 
+#### - Import / copy the `utils.py` file
+
+The `utils.py` file comes with several useful functions:
+
+1. `clean_yapp` for cleaning the input yapp
+2. `preprocess_yapps` for pre-processing the yapps so that the model understands what you're yapping about
+3. `classify_yapp` for classifying the yapp as either a negative or positive yapp
+
+#### - Initialize the model
+
 ```py
-def preprocess_texts(texts: list[str]):
-    # Use the saved tokenizer to tokenize the given text
-    sequences = tokenizer.texts_to_sequences(texts)
-    padded_sequences = tf.keras.preprocessing.sequence.pad_sequences(
-        sequences, maxlen=MAX_LENGTH, padding=PADDING_TYPE, truncating=TRUNCATING_TYPE)
-    return padded_sequences
+# Load the model
+model = tf.keras.models.load_model('./models/yapping_classifier_model')
+
+# Load the tokenizer
+tokenizer = None
+with open('./models/tokenizer.pickle', 'rb') as handle:
+    tokenizer = pickle.load(handle)
 ```
 
-```py
-def classify_text(text: str):
-    # Pre-processed texts must be a list for the model to consume
-    preprocessed_text = preprocess_texts([text])
-    # Use the saved model to make a prediction on the Pre-processed text
-    prediction = model.predict(preprocessed_text)
-
-    prediction = prediction.flatten()
-    negative_confidence = 1 - prediction[0]
-    print(
-        f"Negative Confidence: {negative_confidence * 100:.3f}%\nPositive Confidence: {(1 - negative_confidence) * 100:.3f}")
-
-    # Classify the text as either Negative or Positive
-    return "Positive" if prediction >= .5 else "Negative"
-```
+#### - Use the `classify_yapp` function
 
 ```py
-classify_text("<your yapping>")
+import utils
+
+input_text = "I love you so much that even the moon knows"
+
+# Output: 'positive'
+utils.classify_yapp(model, tokenizer, input_text)
 ```
 
 # Author

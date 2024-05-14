@@ -17,7 +17,7 @@ stop_words = stopwords.words("english")
 stemmer = SnowballStemmer("english")
 
 
-def clean_text(text: str):
+def clean_yapp(text: str):
     # Casefolding and remove extra spaces
     output = text.lower().strip()
 
@@ -40,18 +40,18 @@ def clean_text(text: str):
     return output
 
 
-def preprocess_texts(tokenizer, texts: list[str]):
+def preprocess_yapps(tokenizer, texts: list[str]):
     # Use the saved tokenizer to tokenize the given text
-    cleaned_texts = [clean_text(text) for text in texts]
+    cleaned_texts = [clean_yapp(text) for text in texts]
     sequences = tokenizer.texts_to_sequences(cleaned_texts)
     padded_sequences = tf.keras.preprocessing.sequence.pad_sequences(
         sequences, maxlen=MAX_LENGTH, padding=PADDING_TYPE, truncating=TRUNCATING_TYPE)
     return padded_sequences
 
 
-def classify_text(model, tokenizer, text: str):
+def classify_yapp(model, tokenizer, text: str):
     # Pre-processed texts must be a list for the model to consume
-    preprocessed_text = preprocess_texts(tokenizer, [text])
+    preprocessed_text = preprocess_yapps(tokenizer, [text])
     # Use the saved model to make a prediction on the Pre-processed text
     prediction = model.predict(preprocessed_text)
 

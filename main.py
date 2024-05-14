@@ -18,4 +18,4 @@ with open('./models/tokenizer.pickle', 'rb') as handle:
 if __name__ == '__main__':
     input_text = input("Your yapp > ")
     print(
-        f"The yapp is classified as a {utils.classify_text(model, tokenizer, input_text)} yapp")
+        f"The yapp is classified as a {utils.classify_yapp(model, tokenizer, input_text)} yapp")
