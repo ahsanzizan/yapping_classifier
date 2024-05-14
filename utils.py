@@ -57,8 +57,9 @@ def classify_yapp(model, tokenizer, text: str):
 
     prediction = prediction.flatten()
     negative_confidence = 1 - prediction[0]
-    print(
-        f"Negative Confidence: {negative_confidence * 100:.3f}%\nPositive Confidence: {(1 - negative_confidence) * 100:.3f}%")
+    if __name__ == "__main__":
+        print(
+            f"Negative Confidence: {negative_confidence * 100:.3f}%\nPositive Confidence: {(1 - negative_confidence) * 100:.3f}%")
 
     # Classify the text as either Negative or Positive
     return "positive" if prediction >= .5 else "negative"
