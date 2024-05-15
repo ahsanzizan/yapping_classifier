@@ -6,15 +6,12 @@ from nltk.corpus import stopwords
 
 
 class YappClassifier:
-    def __init__(self, model_path: str, tokenizer_path: str, stemmer_path: str, vocab_size: int = 1000,
-                 embedding_dim: int = 16, max_length: int = 20, truncating_type: str = 'post',
-                 padding_type: str = 'post', oov_token: str = "<OOV>"):
-        self.vocab_size = vocab_size
-        self.embedding_dim = embedding_dim
+    def __init__(self, model_path: str, tokenizer_path: str, stemmer_path: str,
+                 max_length: int = 20, truncating_type: str = 'post',
+                 padding_type: str = 'post'):
         self.max_length = max_length
         self.truncating_type = truncating_type
         self.padding_type = padding_type
-        self.oov_token = oov_token
 
         try:
             # Load the stopwords
