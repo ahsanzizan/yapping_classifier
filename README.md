@@ -55,9 +55,9 @@ with open('./models/tokenizer.pickle', 'rb') as handle:
 
 Now that you've loaded the model, you can now use it to make predictions as such:
 
-#### - Import / copy the `utils.py` file
+#### - Import the `yapp_classifier.py`
 
-The `utils.py` file comes with several useful functions:
+The `yapp_classifier.py` file comes with several useful functions:
 
 1. `clean_yapp` for cleaning the input yapp
 2. `preprocess_yapps` for pre-processing the yapps so that the model understands what you're yapping about
@@ -66,24 +66,16 @@ The `utils.py` file comes with several useful functions:
 #### - Initialize the model
 
 ```py
-# Load the model
-model = tf.keras.models.load_model('./models/yapping_classifier_model')
+from yapp_classifier import YappClassifier
 
-# Load the tokenizer
-tokenizer = None
-with open('./models/tokenizer.pickle', 'rb') as handle:
-    tokenizer = pickle.load(handle)
-```
-
-#### - Use the `classify_yapp` function
-
-```py
-import utils
+yapp_classifier = YappClassifier(model_path='./models/yapping_classifier_model',
+                                 tokenizer_path='./models/tokenizer.pickle',
+                                 stemmer_path='./models/stemmer.pickle')
 
 input_text = "I love you so much that even the moon knows"
 
 # Output: '{'positive': 0.99788, 'negative': 0.00212}'
-utils.classify_yapp(model, tokenizer, input_text)
+yapp_classifier.classify_yapp(input_text)
 ```
 
 # Author
