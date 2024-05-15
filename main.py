@@ -1,4 +1,5 @@
 from yapp_classifier import YappClassifier
+from logger import ColorfulLogger
 
 # EXAMPLE USAGE OF THE YAPPING CLASSIFIER MODEL
 
@@ -9,8 +10,10 @@ yapp_classifier = YappClassifier(model_path='./models/yapping_classifier_model',
 if __name__ == '__main__':
     input_text = input("Your yapp > ")
     confidence = yapp_classifier.classify_yapp(input_text)
-    print(
-        f"Negative Confidence: {confidence['negative'] * 100:.3f}%\nPositive Confidence: {(confidence['positive']) * 100:.3f}%")
+
+    logger = ColorfulLogger.get_logger('logger')
+    logger.info(f"Positive Confidence: {confidence['positive'] * 100:.3f}%")
+    logger.error(f"Negative Confidence: {confidence['negative'] * 100:.3f}%")
+
     classification = max(confidence, key=confidence.get)
-    print(
-        f"The yapp is classified as a {classification} yapp")
+    logger.debug(f"The yapp is classified as a {classification} yapp")
