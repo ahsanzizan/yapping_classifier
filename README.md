@@ -32,32 +32,13 @@ You have to install Tensorflow to load the model because its based on the Tensor
 pip install tensorflow
 ```
 
-### 3. Load the model
-
-You can now use the model in your desired project by loading it with Tensorflow:
-
-```py
-import tensorflow as tf
-import pickle
-```
-
-```py
-# Load the model
-model = tf.keras.models.load_model('./models/yapping_classifier_model')
-
-# Load the tokenizer
-tokenizer = None
-with open('./models/tokenizer.pickle', 'rb') as handle:
-    tokenizer = pickle.load(handle)
-```
-
-### 4. Make predictions
+### 3. Use the model
 
 Now that you've loaded the model, you can now use it to make predictions as such:
 
-#### - Import the `yapp_classifier.py`
+#### - Import the `yapp_classifier`
 
-The `yapp_classifier.py` file comes with several useful functions:
+The `yapp_classifier` comes with several useful functions:
 
 1. `clean_yapp` for cleaning the input yapp
 2. `preprocess_yapps` for pre-processing the yapps so that the model understands what you're yapping about
