@@ -1,5 +1,5 @@
 from yapp_classifier import YappClassifier
-from logger import ColorfulLogger
+from utils.logger import ColorfulLogger
 
 # EXAMPLE USAGE OF THE YAPPING CLASSIFIER MODEL
 

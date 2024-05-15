@@ -3,7 +3,6 @@ import re
 
 import tensorflow as tf
 from nltk.corpus import stopwords
-from logger import ColorfulLogger
 
 
 class YappClassifier:
